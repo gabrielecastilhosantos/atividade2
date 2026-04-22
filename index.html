@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESTUDE+</title>
+
+<style>
+:root {
+    --bg: #f4f6fa;
+    --surface: #ffffff;
+    --surface-strong: #f8fafc;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --border: rgba(100, 116, 139, 0.15);
+    --radius: 18px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, "Segoe UI", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 60%, #ffffff 100%);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+}
+
+header {
+    width: 100%;
+    max-width: 980px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+header .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(37, 99, 235, 0.1);
+    padding: 14px 20px;
+    border-radius: 999px;
+    border: 1px solid rgba(37, 99, 235, 0.18);
+}
+
+header .brand strong {
+    font-size: 1.1rem;
+    color: var(--primary-dark);
+}
+
+header h1 {
+    font-size: 2.2rem;
+    margin-top: 18px;
+    letter-spacing: -0.03em;
+}
+
+header p {
+    margin-top: 10px;
+    color: var(--muted);
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    max-width: 980px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+    padding: 28px;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    margin-bottom: 18px;
+    color: var(--text);
+}
+
+input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    background: var(--surface-strong);
+    color: var(--text);
+    margin-top: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: rgba(0, 23, 73, 0.7);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+}
+
+button.primary {
+    background: var(--primary);
+    color: rgb(0, 0, 0);
+    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.16);
+}
+
+button.primary:hover {
+    background: var(--primary-dark);
+}
+
+button.secondary {
+    background: #1f8efd;
+    color: var(--text);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+button.secondary:hover {
+    background: #eef2ff;
+}
+
+.buttons-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    margin-top: 16px;
+}
+
+.options {
+    display: grid;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.options button {
+    width: 100%;
+    text-align: left;
+    background: var(--surface-strong);
+    color: var(--text);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    font-size: 1rem;
+    padding: 14px 16px;
+}
+
+.options button:hover:not(:disabled) {
+    border-color: rgba(37, 99, 235, 0.6);
+    background: #eef4ff;
+}
+
+.options button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.question-container {
+    display: none;
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.question-header h2 {
+    font-size: 1.3rem;
+}
+
+.progress-text {
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.result {
+    margin-top: 18px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.result.correct {
+    color: var(--success);
+}
+
+.result.incorrect {
+    color: var(--danger);
+}
+
+.explanation {
+    margin-top: 14px;
+    line-height: 1.7;
+    color: var(--muted);
+    white-space: pre-line;
+}
+
+#next-btn {
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="brand">
+        <span>🧠</span>
+        <strong>ESTUDE+</strong>
+    </div>
+    <h1>🚀 Seu Portal de Aprendizado Está Aqui!</h1>
+    <p>Bem-vindos caros estudandes ao nosso espaço de aprendizado!
+Este site foi feito especialmente para vocês, alunos, com o objetivo de tornar o estudo mais prático, dinâmico e acessível. Aqui vocês vão encontrar:
+
+Conteúdos organizados para facilitar a revisão das aulas.
+
+Materiais extras que ajudam a aprofundar o conhecimento.
+
+Ferramentas interativas que tornam o aprendizado mais leve e divertido.
+
+Acesso rápido a tudo o que precisam, em qualquer lugar e a qualquer hora.
+
+O site é um apoio para que vocês possam estudar com autonomia, revisar quando tiverem dúvidas e se preparar melhor para as avaliações. Aproveitem cada recurso disponível e façam dele parte da sua rotina de estudos.</p>
+</header>
+
+<main class="container">
+
+<section class="card login" id="loginBox">
+    <div class="section-title">Cadastro do aluno</div>
+    <input type="text" id="nome" placeholder="Nome completo" required>
+    <input type="email" id="email" placeholder="Email institucional" required>
+    <input type="text" id="cgm" placeholder="CGM (obrigatório)" required>
+    <button class="primary" onclick="startSystem()">Começar</button>
+</section>
+
+<section class="card schedule" id="scheduleBox" style="display:none;">
+    <div class="section-title">Grade de aulas do dia</div>
+    <p style="color: var(--muted); margin-bottom: 18px;">Confira sua agenda e siga para os exercícios quando estiver pronto.</p>
+    <div style="display:grid; gap:10px; color: var(--text);">
+        <div>PRIMEIRO ANO</div>
+        <div>08:00 - Matemática</div>
+        <div>09:00 - Português</div>
+        <div>10:00 - Ciências</div>
+        <div>11:00 - Geografia</div>
+        <div>12:00 - História</div>
+
+        <div>SEGUNDO ANO</div>
+        <div>07:00 - Matemática</div>
+        <div>08:00 - biologia</div>
+        <div>09:00 - história</div>
+        <div>10:00 - sociologia</div>
+        <div>11:00 - sociologia</div>
+        <div>12:00 - projeto de vida</div>
+
+        
+    </div>
+    <button class="primary" style="margin-top: 22px;" onclick="showLevels()">Iniciar exercícios</button>
+</section>
+
+<section class="card level" style="display:none;">
+    <div class="section-title">Escolha o nível de dificuldade</div>
+    <div class="buttons-grid">
+        <button class="secondary" onclick="selectLevel('Fácil')">Fácil</button>
+        <button class="secondary" onclick="selectLevel('Médio')">Médio</button>
+        <button class="secondary" onclick="selectLevel('Difícil')">Difícil</button>
+        <button class="secondary" onclick="selectLevel('Expert')">Expert</button>
+    </div>
+</section>
+
+<section class="card series" style="display:none;">
+    <div class="section-title">Selecione a série</div>
+    <div class="buttons-grid">
+        <button class="secondary" onclick="selectSeries(1)">1º Ano</button>
+        <button class="secondary" onclick="selectSeries(2)">2º Ano</button>
+        <button class="secondary" onclick="selectSeries(3)">3º Ano</button>
+    </div>
+</section>
+
+<section class="card question-container" id="questionContainer">
+    <div class="question-header">
+        <h2 id="question-title"></h2>
+        <div class="progress-text" id="question-progress"></div>
+    </div>
+
+    <div class="options">
+        <button onclick="checkAnswer(0)"></button>
+        <button onclick="checkAnswer(1)"></button>
+        <button onclick="checkAnswer(2)"></button>
+        <button onclick="checkAnswer(3)"></button>
+    </div>
+
+    <div class="result" id="resultText"></div>
+    <div class="explanation" id="explanation"></div>
+
+    <button class="primary" id="next-btn" style="display:none;" onclick="nextQuestion()">Próxima pergunta</button>
+</section>
+
+</main>
+
+<script>
+let level = '';
+let series = 0;
+let currentQuestion = 0;
+
+const questions = {
+"1": {
+"Fácil": [
+{ question: "Quanto é 2 + 3?", options: ["4", "5", "6", "3"], answer: 1 },
+{ question: "Qual é a raiz quadrada de 16?", options: ["2", "3", "4", "5"], answer: 2 },
+{ question: "Quem descobriu a América?", options: ["Cristóvão Colombo", "Pedro Álvares Cabral", "Vasco da Gama", "Fernão de Magalhães"], answer: 0 }
+],
+"Médio": [
+{ question: "Quanto é 7 - 2?", options: ["5", "6", "4", "3"], answer: 0 },
+{ question: "Qual animal mia?", options: ["Cachorro", "Gato", "Pato", "Vaca"], answer: 1 }
+],
+"Difícil": [
+{ question: "Qual número vem depois do 9?", options: ["8", "10", "11", "12"], answer: 1 },
+{ question: "O que usamos para escrever?", options: ["Papel", "Caneta", "Borracha", "Lápis"], answer: 1 }
+],
+"Expert": [
+{ question: "Quanto é 12 + 15?", options: ["26", "27", "28", "29"], answer: 1 },
+{ question: "Quantos dias tem uma semana?", options: ["5", "6", "7", "8"], answer: 2 }
+]
+},
+"2": {
+"Fácil": [
+{ question: "Quanto é 5 + 4?", options: ["8", "9", "10", "7"], answer: 1 },
+{ question: "Qual estação vem depois do verão?", options: ["Inverno", "Outono", "Primavera", "Verão"], answer: 1 }
+],
+"Médio": [
+{ question: "Quanto é 15 - 7?", options: ["7", "8", "9", "10"], answer: 1 },
+{ question: "Qual é o oposto de grande?", options: ["Pequeno", "Alto", "Lento", "Rápido"], answer: 0 }
+],
+"Difícil": [
+{ question: "Quantos meses têm 31 dias?", options: ["6", "7", "5", "4"], answer: 0 },
+{ question: "Qual é a capital do Brasil?", options: ["São Paulo", "Brasília", "Rio", "Salvador"], answer: 1 }
+],
+"Expert": [
+{ question: "Quanto é 18 ÷ 3?", options: ["5", "6", "7", "8"], answer: 1 },
+{ question: "Qual é o maior planeta?", options: ["Terra", "Júpiter", "Marte", "Saturno"], answer: 1 }
+]
+},
+"3": {
+"Fácil": [
+{ question: "Quanto é 10 + 5?", options: ["14", "15", "16", "13"], answer: 1 },
+{ question: "Qual animal diz 'au au'?", options: ["Gato", "Cachorro", "Leão", "Pato"], answer: 1 }
+],
+"Médio": [
+{ question: "Quanto é 12 - 4?", options: ["8", "7", "6", "9"], answer: 0 },
+{ question: "O que planta dá fruta?", options: ["Árvore", "Pedra", "Água", "Vento"], answer: 0 }
+],
+"Difícil": [
+{ question: "Quanto é 5 × 6?", options: ["30", "25", "35", "20"], answer: 0 },
+{ question: "Capital da França?", options: ["Londres", "Paris", "Berlim", "Roma"], answer: 1 }
+],
+"Expert": [
+{ question: "81 ÷ 9?", options: ["8", "9", "7", "10"], answer: 1 },
+{ question: "Menor continente?", options: ["Ásia", "Oceania", "Europa", "África"], answer: 1 }
+]
+}
+};
+
+const explanations = {
+    "1-Fácil-0": "Somar 2 + 3 significa juntar duas quantidades para obter um total de 5.",
+    "1-Fácil-1": "O céu é azul devido à dispersão da luz solar na atmosfera.",
+    "1-Médio-0": "Subtrair 7 - 2 significa retirar duas unidades de sete.",
+    "1-Médio-1": "O gato faz o som 'miau'.",
+    "1-Difícil-0": "A sequência numérica avança naturalmente de 9 para 10.",
+    "1-Difícil-1": "Utilizamos objetos como lápis ou caneta para escrever.",
+    "1-Expert-1": "A semana tem 7 dias, conforme o calendário internacional.",
+    "2-Fácil-1": "As estações seguem um ciclo natural definido pelo clima.",
+    "3-Difícil-0": "5 × 6 é igual a 30 porque são cinco grupos de seis unidades.",
+    "3-Difícil-1": "Paris é a capital da França."
+};
+
+function startSystem() {
+    if (!document.getElementById('cgm').value.trim()) {
+        alert("CGM obrigatório!");
+        return;
+    }
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('scheduleBox').style.display = 'block';
+}
+
+function showLevels() {
+    document.getElementById('scheduleBox').style.display = 'none';
+    document.querySelector('.level').style.display = 'block';
+}
+
+function selectLevel(l) {
+    level = l;
+    document.querySelector('.level').style.display = 'none';
+    document.querySelector('.series').style.display = 'block';
+}
+
+function selectSeries(s) {
+    series = s;
+    document.querySelector('.series').style.display = 'none';
+    document.querySelector('.question-container').style.display = 'block';
+    currentQuestion = 0;
+    showQuestion();
+}
+
+function showQuestion() {
+    const q = questions[series][level][currentQuestion];
+    document.getElementById('question-title').innerText = q.question;
+    document.getElementById('question-progress').innerText = `Pergunta ${currentQuestion + 1} de ${questions[series][level].length}`;
+
+    document.querySelectorAll('.options button').forEach((button, index) => {
+        button.innerText = q.options[index];
+        button.disabled = false;
+    });
+
+    const result = document.getElementById('resultText');
+    result.innerText = "";
+    result.className = "result";
+    document.getElementById('explanation').innerText = "";
+    document.getElementById('next-btn').style.display = "none";
+}
+
+function checkAnswer(index) {
+    const q = questions[series][level][currentQuestion];
+    const key = `${series}-${level}-${currentQuestion}`;
+    const result = document.getElementById('resultText');
+    const explanation = document.getElementById('explanation');
+
+    if (index === q.answer) {
+        result.innerText = "✔ Correto!";
+        result.classList.add('correct');
+        explanation.innerText =
+            "Você acertou! Continue assim.\n\nExplicação:\n" +
+            (explanations[key] || "Aplicou o conceito corretamente.");
+    } else {
+        result.innerText = "✖ Incorreto.";
+        result.classList.add('incorrect');
+        explanation.innerText =
+            "A resposta correta é: " + q.options[q.answer] + ".\n\nExplicação:\n" +
+            (explanations[key] || "Revise o conteúdo e tente novamente.");
+    }
+
+    document.querySelectorAll('.options button').forEach(button => {
+        button.disabled = true;
+    });
+
+    document.getElementById('next-btn').style.display = "block";
+}
+
+function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion < questions[series][level].length) {
+        showQuestion();
+    } else {
+        document.getElementById('questionContainer').innerHTML =
+            `<div class="section-title">Parabéns!</div>
+            <p style="color: var(--muted); line-height: 1.7;">Você concluiu o ${series}º ano no nível ${level}. Deseja reiniciar para tentar outro percurso?</p>
+            <button class="primary" onclick="location.reload()">Reiniciar</button>`;
+    }
+}
+</script>
+
+</body>
+</html>
